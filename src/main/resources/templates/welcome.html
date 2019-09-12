@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+ 
+ <head>
+      <title th:utext="${title}"></title>
+ 		<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Latest compiled and minified CSS --> <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<!-- jQuery library --> 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper JS --> 					<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript --> <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<!-- Custom css --> 				<link rel="stylesheet" href="/css/custom.css">
+
+ </head>
+   
+   <body>
+   
+        <div class="container">
+      <!-- Include _menu.html -->
+      
+  			 <div class="page-header"> 
+      			<p class="unselectable_link" th:utext="${username}"></p>
+   			</div>
+   			<div class="hero">
+   			
+      			<h2>Welcome</h2>
+   			</div>
+
+      
+      <th:block th:include="/_menu"></th:block>  
+           
+     
+      <!-- th:text="${thumbnail}" 
+      th:attr="src=${thumbnail.path}"
+       -->
+      
+      <div th:each="thumbnail,rowStatus : ${thumbnails}" class="row interest-featured" th:if="${rowStatus.index % 3} == 0">
+   	 		<div th:each="thumbnail,thumbnailStatus : ${thumbnails}" class=" thumbnail col-md-4 interest" 
+         		th:if="${thumbnailStatus.index lt rowStatus.index + 3 and thumbnailStatus.index ge rowStatus.index}">
+         		<!--  <a th:href="@{}"> th:width="${thumbnailDisplay.width}" th:height="${thumbnailDisplay.height}" -->
+         			<a th:href="@{'/photo?id=' + ${thumbnail.id}}">
+					<img class="img-thumbnail img-rounded img-responsive" alt="img"  th:src="@{'data:image/jpeg;base64,' + ${thumbnail.thumbnailData}}" />
+         			</a>
+         		<!--   </a> -->
+         	</div>
+     </div>
+     
+     
+    <!-- TODO: Reattach once we hook up pages to the navState component
+      <div th:if="${navState.isNavVisible}">
+      <nav aria-label="Page navigation example">
+      
+  <ul class="pagination">
+    <li class="page-item">
+      <a th:class="${navState.isPreviousNavEnabled ? 'page-link' : 'inactive-page-link page-link'}"  
+      	 th:href="${navState.navPreviousLink}" 
+      	 aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+
+    <li th:each=" i :${#numbers.sequence( 0, highestPageIndex)} " class="page-item">
+    	<a 	th:if="${i != currentPage}" 
+    		class="page-link" 
+    		th:href="@{'/?page=' + ${i} + '&size=' + ${numberOfPhotosPerPage}}"
+    		th:text="${i+1}">1</a>
+    	
+    	<p th:if="${i == currentPage}"  
+    		class="inactive-page-link page-link" 
+    		th:text="${i+1}">1</p>
+    </li>
+    <li class="page-item" >
+      <a	th:class="${navState.isNextNavEnabled ? 'page-link' : 'inactive-page-link page-link'}" 
+      		th:href="${navState.navNextLink}"
+      		aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+     
+  </ul>
+</nav> -->
+      </div>
+      
+      <div th:if="${counter != null}">
+      	 <h4 th:text="${counter}"> counter goes here</h4>
+      </div>
+      
+      
+     </div>
+   </body>
+</html>
