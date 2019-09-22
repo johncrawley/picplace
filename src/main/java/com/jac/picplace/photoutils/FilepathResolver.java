@@ -1,5 +1,7 @@
 package com.jac.picplace.photoutils;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class FilepathResolver {
 
 	@Value("${location.images}")				private String IMAGES_LOCATION;
+	@Value("${location.use_home_dir}")			private boolean USE_HOME_DIR;
 	@Value("${location.thumbnail_directory}") 	private String THUMBNAIL_DIR;
 	@Value("${location.medium_directory}") 		private String MEDIUM_DIR;
 	@Value("${location.large_directory}") 		private String LARGE_DIR;
@@ -25,7 +28,13 @@ public class FilepathResolver {
 	}
 	
 	public String getPhotoDir(String userId, PhotoSize size) { 
-		return IMAGES_LOCATION +  userId + "/" + getPhotoDir(size);
+
+		String path = IMAGES_LOCATION +  userId + File.separator + getPhotoDir(size);
+
+		if(USE_HOME_DIR) {
+			return System.getProperty("user.home") + File.separator + path;
+		} 
+		return path;
 	}
 	
 	

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title th:utext="${title}"></title>
+   </head>
+   
+   <body>
+   
+      <!-- Include _menu.html -->
+      <th:block th:include="/_menu"></th:block>  
+      
+      <h2>Upload photos!!</h2>
+         	
+    <table>
+      <tr>
+        <th>Upload your photos here</th>
+      </tr>
+      <tr th:each="note : ${notes}">
+        <td th:text="${note.text}">Empty</td>
+      </tr>
+    </table>
+    <!-- 
+   	<form method="POST" action="/uploadImage" enctype="multipart/form-data">
+   		<input type="file" name="file" /><br/>   		
+   		<input type="text" name="title" /><br/>
+    	<input type="submit" value="Submit" />
+	</form>
+   	
+ 				<a class="nav-link" href="${pageContext.request.contextPath}/welcome">Welcome</a>
+<form method="POST" action="${pageContext.request.contextPath}/uploadImage" enctype="multipart/form-data" commandName="photo">
+    <input type="file" name="file" /><br/>
+    <input type="submit" value="Submit" />
+</form>
+
+
+       <tr>
+               <td>Title:</td>
+               <td><input type="text" th:field="*{title}" /> </td>
+            </tr>
+            
+            
+            	 <form  method="POST" th:action="@{/upload}" th:object="${photoForm}" enctype="multipart/form-data" th:randomblahh = "" th:commandName="photoForm">
+     
+   	-->
+   	 <form  method="POST" th:object="${photoForm}" enctype="multipart/form-data">
+         <table>
+     
+            <tr>
+               <td>Image:</td>
+               <td><input type="file" th:field="*{file}" /> </td>
+            </tr>
+            <tr>
+            	<td>Title</td>
+            	<td><input type="text" th:field="*{title}" /> </td>
+            </tr>
+            
+            <tr>
+               <td>
+                  <input type="submit" value="Submit" />
+               </td>
+               <td>&nbsp;</td>
+            </tr>
+         </table>
+      </form>
+   	
+   	
+   </body>
+</html>

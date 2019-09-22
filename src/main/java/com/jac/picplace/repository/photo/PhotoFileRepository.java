@@ -1,4 +1,4 @@
-package com.jacplace.repository.photo;
+package com.jac.picplace.repository.photo;
 
 import org.springframework.data.domain.Page;
 

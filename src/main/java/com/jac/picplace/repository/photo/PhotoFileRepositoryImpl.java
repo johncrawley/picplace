@@ -1,4 +1,4 @@
-package com.jacplace.repository.photo;
+package com.jac.picplace.repository.photo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -95,16 +95,23 @@ public class PhotoFileRepositoryImpl implements PhotoFileRepository {
 		return writeToFile(bytesToWrite, path);
 	}
 	
-	private boolean savePhoto(byte[] bytes, String username, long photoId) {
-		return writeToFile(bytes, filepathResolver.getPhotoPath(username, photoId, PhotoSize.LARGE));
-	}
-	
 	
 	private boolean writeToFile(byte[] bytes, String filename) {
 		
 		boolean success = false;
-		
-		 try (OutputStream outputStream = new FileOutputStream(filename);
+		File file = new File(filename);
+		if(!file.exists()) {
+			try {
+				//file.mkdirs();
+				file.createNewFile();
+				System.out.println("Tried to create file: " + file.getAbsolutePath() + " exists: " + file.exists());
+			}catch(IOException e) {
+				System.out.println("Unable to create the file for saving image: " +  filename);
+				e.printStackTrace(); 
+				return false;
+			}
+		} 
+		try (OutputStream outputStream = new FileOutputStream(filename);
 				 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()){  
 	
 			 byteArrayOutputStream.write(bytes);
