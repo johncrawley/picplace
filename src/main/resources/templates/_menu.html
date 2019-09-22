@@ -3,11 +3,10 @@
 
   <a th:href="@{/}">Home</a>
 
-     | &nbsp;
+     | &nbsp; 
+   <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/members}">Members | &nbsp;</a>
 
-   <a th:href="@{/members}">Members</a>
-
-     | &nbsp;
+     
 
    <a th:href="@{/register}">Register</a>
      | &nbsp;
