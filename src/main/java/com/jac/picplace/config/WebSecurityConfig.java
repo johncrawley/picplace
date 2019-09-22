@@ -19,8 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 
 @EnableWebSecurity
@@ -68,12 +68,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//.anyRequest().authenticated().and().formLogin();
 
 		http.csrf().disable();
+		http.formLogin().defaultSuccessUrl("/");//successHandler(successHandler());
+		/*
 		http.formLogin().successHandler(new AuthenticationSuccessHandler() {
 		    //@Override
 		    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		       //do nothing
 		    }
-		});
+		});*/
 	}
 /*
 	@Bean
@@ -86,6 +88,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
+	}
+	
+	//an alternative to the defaultSuccessUrl after http.formLogin()
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+	    SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+	    handler.setUseReferer(true);
+	    return handler;
 	}
 	
 }
