@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -126,6 +127,16 @@ public class MainController {
 			    	model.put("photo", photo);
 			    }
 			   return "/photo";
+		   }
+		   
+		   // more of a REST thing, because links & forms in html are meant to deal with GET and POST only
+		   // but just used here to check out the ability of the photo service to delete individual photos
+		   @DeleteMapping("/photo")
+		   public String deletePhoto(@RequestParam long id) {
+			   System.out.println("About to delete photo: " + id);
+			   String username = getUsername();
+			   photoService.deletePhoto(username, id);
+			   return "welcome";
 		   }
 		
 	

@@ -52,6 +52,21 @@ public class PhotoServiceImpl implements PhotoService {
 		return photo;
 	}
 	
+	
+	public boolean deletePhoto(String userId, int photoId) {
+		
+		long id = Long.valueOf(photoId).longValue();
+		Optional<Photo> optional = photoRepository.findById(id);
+		Photo photo = optional.orElse(new Photo());
+		if(optional.isEmpty()) {
+			return false;
+		}
+		photoRepository.delete(optional.get());
+		photoFileRepository.delete(userId, photoId);
+		
+		return false;
+	}
+	
 	//public Photo getf
 
 	@Override

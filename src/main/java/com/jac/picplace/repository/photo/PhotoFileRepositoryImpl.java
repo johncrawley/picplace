@@ -37,18 +37,19 @@ public class PhotoFileRepositoryImpl implements PhotoFileRepository {
 	}
 	
 	@Override
-	public void delete(String userId, long photoId) {
+	public boolean delete(String userId, long photoId) {
 		
-		deletePhoto(userId, photoId, PhotoSize.LARGE);
-		deletePhoto(userId, photoId, PhotoSize.MEDIUM);
-		deletePhoto(userId, photoId, PhotoSize.THUMBNAIL);
+		boolean largeDeleted = deletePhoto(userId, photoId, PhotoSize.LARGE);
+		boolean mediumDeleted = deletePhoto(userId, photoId, PhotoSize.MEDIUM);
+		boolean thumbnailDeleted = deletePhoto(userId, photoId, PhotoSize.THUMBNAIL);
+		return largeDeleted && mediumDeleted && thumbnailDeleted;
 	}
 	
 	
-	private void deletePhoto(String userId, long photoId, PhotoSize photoSize) {
+	private boolean deletePhoto(String userId, long photoId, PhotoSize photoSize) {
 		String path = filepathResolver.getPhotoPath(userId,  photoId,  photoSize);
 		File file = new File(path);
-		file.delete();
+		return file.delete();
 		
 	}
 	@Override
